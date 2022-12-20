@@ -7,6 +7,19 @@ class BlogsController < ApplicationController
     @blog = Blog.find(params[:id])
   end
 
+  def edit
+    @blog = Blog.find(params[:id])
+  end
+
+  def update
+    @blog = Blog.find(params[:id])
+    if @blog.update(blog_params)
+      redirect_to blogs_path, notice: "ブログを編集しました！"
+    else
+      render :edit
+    end
+  end
+
   def new
     @blog = Blog.new
   end
@@ -24,5 +37,9 @@ class BlogsController < ApplicationController
 
   def blog_params
     params.require(:blog).permit(:title, :content)
+  end
+
+  def set_blog
+    @blog = Blog.find(params[:id])
   end
 end
