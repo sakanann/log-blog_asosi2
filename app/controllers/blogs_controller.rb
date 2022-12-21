@@ -5,6 +5,20 @@ class BlogsController < ApplicationController
     @blogs = Blog.all
   end
 
+  def new
+    @blog = Blog.new
+  end
+
+  def create
+    @blog = current_user.blogs.build(blog_params)
+    return render :new if params[:back]
+    if @blog.save
+      redirect_to blogs_path, notice: "ブログを作成しました！"
+    else
+      render :new
+    end
+  end
+
   def show
   end
 
@@ -27,20 +41,6 @@ class BlogsController < ApplicationController
   def confirm
     @blog = current_user.blogs.build(blog_params)
     render :new if @blog.invalid?
-  end
-
-  def new
-    @blog = Blog.new
-  end
-
-  def create
-    @blog = current_user.blogs.build(blog_params)
-    return render :new if params[:back]
-    if @blog.save
-      redirect_to blogs_path, notice: "ブログを作成しました！"
-    else
-      render :new
-    end
   end
 
   private
