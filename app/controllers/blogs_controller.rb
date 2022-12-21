@@ -26,6 +26,7 @@ class BlogsController < ApplicationController
 
   def confirm
     @blog = Blog.new(blog_params)
+    @blog.user_id = current_user.id
     render :new if @blog.invalid?
   end
 
@@ -35,6 +36,7 @@ class BlogsController < ApplicationController
 
   def create
     @blog = Blog.new(blog_params)
+    @blog.user_id = current_user.id
     return render :new if params[:back]
     if @blog.save
       redirect_to blogs_path, notice: "ブログを作成しました！"
@@ -50,6 +52,6 @@ class BlogsController < ApplicationController
   end
 
   def set_blog
-    
+    @blog = Blog.find(params[:id])
   end
 end
