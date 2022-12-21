@@ -23,6 +23,11 @@ class BlogsController < ApplicationController
   end
 
   def edit
+    if @blog.user == current_user
+      render :edit
+    else
+      redirect_to blogs_path
+    end
   end
 
   def update
